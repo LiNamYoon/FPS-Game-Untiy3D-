@@ -1,0 +1,60 @@
+//사용 기술 : Invoke / GameObject.Find / GetComponent<Text>() / SetActive
+using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+
+public class Wellcome : MonoBehaviour {
+
+    public string MyMessage = "Welcome!";
+    private Text textWelcome;
+    public GameObject CanvarWelcome;
+	
+
+	void Start ()
+    {
+        SetObject();
+        MyWelcomeMessage();
+        
+    }
+    void SetObject()
+    {
+        // GameObject.Find("TextWelcome") : 하이라키 상에 존재하는 GameObject를 불러온다.
+        // 사용법 :  GameObject.Find("원하는 GameObject 이름")
+        // GetComponent<Text>() : 해당 오브젝트에서 원하는 기능만 불러온다.
+        // 사용법 : GetComponent<원하는 기능>() 
+        // 참조 : Text의 경우  using UnityEngine.UI 라는 namespace필요
+        textWelcome = GameObject.Find("TextWelcome").GetComponent<Text>();      
+    }
+	
+
+    void MyWelcomeMessage()
+    {
+        if(textWelcome != null)
+        {
+            textWelcome.text = MyMessage;
+        }
+        else
+        {
+            Debug.LogWarning("textWelcome이 존재하지 않습니다.");
+        }
+
+        // Invoke : 딜레이 함수 중 하나로 원하는 메서드를 원하는 시간 이후 실행되게 하는 함수
+        // 사용법 : Invoke("메서드 이름", 원하는 시간(초));
+        Invoke("SetActive", 2.5f);
+    }
+	
+	void Update ()
+    {
+        
+	}
+
+
+    // GameObject의 SetActive를 관리하는 메서드 (GameObject On/Off System)
+    void SetActive()
+    {
+        // SetActive : 원하는 GameObject를 On/Off 할 수 있다.
+        // 사용법 : 원하는 GameObject.SetActive(true/false)
+        CanvarWelcome.SetActive(false); 
+    }
+    
+}
