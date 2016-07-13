@@ -1,4 +1,4 @@
-// 사용 기술 : LayerMask.NameToLayer() / OnEnable() / OnDisable()
+// 사용 기술 : LayerMask.NameToLayer() / OnEnable() / OnDisable() / GetComponent<Renderer>().material.color / Color MyColor = new Color()
 
 using UnityEngine;
 using System.Collections;
@@ -8,6 +8,11 @@ namespace Chapter1
 {
     public class WalkThroughWall : MonoBehaviour
     {
+        // Color MyColor = new Color() : RGB 지정하여 Color를 선언한다.
+        // 사용법 : Color MyColor = new Color(R 수치, G 수치, B 수치, 투명도);
+        private Color MyColor = new Color(0.5f, 0.6f, 3);
+
+        //----------------------------------------------------------------------------------
         /*
         // OnEnable() : 게임 오브젝트가 활성화 되면 실행되는 코드
         void OnEnable()
@@ -24,15 +29,22 @@ namespace Chapter1
         }
         */
 
+        //----------------------------------------------------------------------------------
+
         // 그냥 메서드 만듬 (TriggersExample와 namespace를 통해 연동되는 것을 확인하기 위한 작업)
         public void SetLayerToNotSolid()
         {
             gameObject.layer = LayerMask.NameToLayer("Not Solid");
+            //GetComponent<Renderer>().material.color : Renderer기능에 material.color를 변경할 수 있는 기능
+            GetComponent<Renderer>().material.color = Color.green;
         }
 
         public void SetLayerToDefult()
         {
             gameObject.layer = LayerMask.NameToLayer("Default");
+            // material.color를 내가 선언한 MyColor로 변경하는 기능
+            GetComponent<Renderer>().material.color = MyColor;
+            
         }
 
     }
