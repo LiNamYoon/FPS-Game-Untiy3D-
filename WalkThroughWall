@@ -4,10 +4,11 @@ using UnityEngine;
 using System.Collections;
 
 
-namespace chapter1
+namespace Chapter1
 {
     public class WalkThroughWall : MonoBehaviour
     {
+        /*
         // OnEnable() : 게임 오브젝트가 활성화 되면 실행되는 코드
         void OnEnable()
         {
@@ -18,6 +19,18 @@ namespace chapter1
 
         // OnDisable() : 게임 오비젝트가 비활성화 되면 실해되는 코드
         void OnDisable()
+        {
+            gameObject.layer = LayerMask.NameToLayer("Default");
+        }
+        */
+
+        // 그냥 메서드 만듬 (TriggersExample와 namespace를 통해 연동되는 것을 확인하기 위한 작업)
+        public void SetLayerToNotSolid()
+        {
+            gameObject.layer = LayerMask.NameToLayer("Not Solid");
+        }
+
+        public void SetLayerToDefult()
         {
             gameObject.layer = LayerMask.NameToLayer("Default");
         }
