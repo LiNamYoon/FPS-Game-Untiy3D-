@@ -1,0 +1,27 @@
+// 사용 기술 : LayerMask.NameToLayer() / OnEnable() / OnDisable()
+
+using UnityEngine;
+using System.Collections;
+
+
+namespace chapter1
+{
+    public class WalkThroughWall : MonoBehaviour
+    {
+        // OnEnable() : 게임 오브젝트가 활성화 되면 실행되는 코드
+        void OnEnable()
+        {
+            // LayerMask.NameToLayer() : LayerMask를 이름으로 검색하기 
+            // 사용법 : LayerMask.NameToLayer("레이어 이름") 
+            gameObject.layer = LayerMask.NameToLayer("Not Solid");
+        }
+
+        // OnDisable() : 게임 오비젝트가 비활성화 되면 실해되는 코드
+        void OnDisable()
+        {
+            gameObject.layer = LayerMask.NameToLayer("Default");
+        }
+
+    }
+
+}
