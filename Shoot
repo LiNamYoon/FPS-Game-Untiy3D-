@@ -1,4 +1,4 @@
-// 사용 기술 : Input.GetKey(KeyCode.Mouse0) / Input.GetButton / Debug.DrawRay() / Physics.Raycast()
+// 사용 기술 : Input.GetKey(KeyCode.Mouse0) / Input.GetButton / Debug.DrawRay() / Physics.Raycast() / Hit.transform.CompareTag()
 
 using UnityEngine;
 using System.Collections;
@@ -72,8 +72,17 @@ namespace Chapter1
                 // 참조 : 먼저 RaycastHit Hit;를 지정하고 시작한다.
                 if (Physics.Raycast(MyTransform.position, MyTransform.forward, out Hit, Range))
                 {
-                    //충돌된 객체 이름 출력
-                    Debug.Log(Hit.transform.name);
+                    // Hit.transform.CompareTag() : 충돌한 타겟이 무엇인지 판단하는 함수
+                    // 사용법 : Hit.transform.CompareTag("타겟명") :
+                    if (Hit.transform.CompareTag("Enemy"))
+                    {
+                        //충돌된 객체 이름 출력
+                        Debug.Log("Enemy " + Hit.transform.name);
+                    }
+                    else
+                    {
+                        Debug.Log("Not Enemy");
+                    }
                 }
                 NextFire = Time.time + FireSpeed;
                 Debug.Log("마우스 입력");
