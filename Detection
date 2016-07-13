@@ -1,0 +1,58 @@
+// 사용 기술 : Physics.Raycast(LayerMask)
+
+using UnityEngine;
+using System.Collections;
+
+namespace Chapter1
+{
+    public class Detection : MonoBehaviour
+    {
+
+        private RaycastHit Hit;
+        private LayerMask DetectionLayer;
+        public float CheckRare =0.5f;
+        public float NextCheck;
+        private float Range = 5f;
+        private Transform MyTransform;
+
+
+        void Start()
+        {
+            SetObject();
+        }
+
+        void SetObject()
+        {
+            MyTransform = transform;
+            // LayerMask에 지정된 번호
+            DetectionLayer = 1 << 9;
+
+        }
+
+
+        void Update()
+        {
+            DetectItems();
+        }
+
+        void DetectItems()
+        {
+            if(Time.time > NextCheck)
+            {
+                NextCheck = Time.time + CheckRare;
+
+                // Physics.Raycast(LayerMask) : 눈에 보이지 않는 선을 만들어서 해당 선에 출돌하는 객체를 LayerMask를 이용하여 판단하는 함수
+                // 사용법 : Physics.Raycast(시작점, 진행방향, out Hit, 적용거리, LayerMask)
+                // 참조 : 먼저 RaycastHit Hit;를 지정하고 시작한다. / 원하는 LayerMask를 먼저 선언하여 객체를 판단할 수 있다.
+                if (Physics.Raycast(MyTransform.position, MyTransform.forward, out Hit, Range, DetectionLayer))
+                {
+                    Debug.Log(Hit.transform.name + "이것은 아이템");
+                }
+            }
+
+            
+        }
+    }
+}
+
+
