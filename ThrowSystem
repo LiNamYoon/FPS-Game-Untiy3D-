@@ -1,0 +1,42 @@
+// 사용 기술 : Instantiate() /
+
+using UnityEngine;
+using System.Collections;
+
+
+namespace Chapter1
+{
+    public class ThrowSystem : MonoBehaviour
+    {
+        public GameObject MiniBox;
+        private Transform MyTransform;
+
+
+        void Start()
+        {
+            SetObject();
+        }
+
+        void SetObject()
+        {
+            MyTransform = transform;
+        }
+
+        void Update()
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                SpawnMiniBox();
+            }
+        }
+        void SpawnMiniBox()
+        {
+            // Instantiate() : 인스턴스화 한다라는 뜻으로 원하는 객체를 복제해서 클론을 생성한다.
+            // 사용법 : Instantiate(생성하고자 하는 객체, 생성위치(좌표), 생성위치(각도);
+            GameObject go = (GameObject)Instantiate(MiniBox, MyTransform.TransformPoint(0, 0, 0.5f), MyTransform.rotation);
+            Destroy(go, 3f);
+        }
+    }
+}
+
+    
