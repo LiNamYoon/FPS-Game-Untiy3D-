@@ -1,4 +1,4 @@
-// 사용 기술 : Input.GetKey /Input.GetButton /
+// 사용 기술 : Input.GetKey(KeyCode.Mouse0) / Input.GetButton / Debug.DrawRay() / Physics.Raycast()
 
 using UnityEngine;
 using System.Collections;
@@ -7,17 +7,20 @@ namespace Chapter1
 {
     public class Shoot : MonoBehaviour
     {
-        float FireSpeed = 0.3f;
-        float NextFire;
-
-
-
+        private float FireSpeed = 0.3f;
+        private float NextFire;
+        private RaycastHit Hit;
+        private float Range = 300f; //Raycast 적용거리
+        private Transform MyTransform;
         void Start()
         {
-
+            SetObject();
         }
 
-
+        void SetObject()
+        {
+            MyTransform = transform;
+        }
 
         void Update()
         {
@@ -61,6 +64,17 @@ namespace Chapter1
              */
             if (Input.GetButton("Fire1") && Time.time > NextFire)
             {
+                // Debug.DrawRay() : Raycast의 보이지 않는 선을 색을 칠해서 보여주는 함수
+                // 사용법 : Debug.DrawRay(시작점, 진행방향, 색, 지속시간);
+                Debug.DrawRay(MyTransform.position, MyTransform.forward, Color.green, 3);
+                // Physics.Raycast() : 눈에 보이지 않는 선을 만들어서 해당 선에 출돌하는 객체를 판단하는 함수
+                // 사용법 : Physics.Raycast(시작점, 진행방향, out Hit, 적용거리)
+                // 참조 : 먼저 RaycastHit Hit;를 지정하고 시작한다.
+                if (Physics.Raycast(MyTransform.position, MyTransform.forward, out Hit, Range))
+                {
+                    //충돌된 객체 이름 출력
+                    Debug.Log(Hit.transform.name);
+                }
                 NextFire = Time.time + FireSpeed;
                 Debug.Log("마우스 입력");
             }
