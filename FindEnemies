@@ -1,0 +1,46 @@
+// 사용 기술 : foreach() / GameObject.FindGameObjectsWithTag()
+
+using UnityEngine;
+using System.Collections;
+
+
+namespace Chapter1
+{
+
+    public class FindEnemies : MonoBehaviour
+    {
+        GameObject[] Enemies;
+
+        void Start()
+        {
+            SerchForEnemies();
+        }
+
+        void SerchForEnemies()
+        {
+            // GameObject.FindGameObjectsWithTag() : GameObject중에 원하는 teg를 가진 객체를 찾는다.
+            // GameObject.FindGameObjectsWithTag("테그이름")
+            Enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+            if (Enemies.Length > 0)
+            {
+                // foreach() : 배열 전체(컬렉션)를 반복시키는 반복문 
+                // 사용법 : foreach (var(배열의 데이터 형식) item(데이터 이름) in collection(반복할 배열이름))
+                foreach (GameObject go in Enemies)
+                {
+                    //배열안에 데이터 이름들
+                    Debug.Log(go.name);
+                    go.SetActive(false);
+                }
+            }
+
+        }
+
+
+        void Update()
+        {
+
+        }
+    }
+}
+
