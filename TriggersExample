@@ -1,0 +1,28 @@
+// 사용 기술 : OnTriggerEnter() / OnTriggerExit() / OnTriggerStay()
+
+using UnityEngine;
+using System.Collections;
+
+namespace Chapter1
+{
+    public class TriggersExample : MonoBehaviour
+    {
+        // 트리거로 들어왔을 때
+        void OnTriggerEnter(Collider other)
+        {
+            Debug.Log(other.name + "들어감");
+        }
+        // 트리거를 나갔을 때
+        void OnTriggerExit(Collider other)
+        {
+            Debug.Log(other.name + "나갔음");
+        }
+        // 트리거 안에 있을 때
+        void OnTriggerStay(Collider other)
+        {
+            Debug.Log(other.name + "안에 있는중");
+        }
+    }
+}
+
+
