@@ -1,0 +1,56 @@
+// 사용 기술 : void OnCollisionEnter () / Physics.OverlapSphere() / GetComponent<Rigidbody>().AddExplosionForce()
+
+using UnityEngine;
+using System.Collections;
+
+
+namespace Chapter1
+{
+    public class ExplosionSystem : MonoBehaviour
+    {
+        private Collider[] HitColliders;
+        public float BlastRadius;
+        public float ExplosionPower;
+        public LayerMask ExplosionLayer;
+
+        // void OnCollisionEnter () : 충돌체간의 충돌에 대한 입력을 받는다.
+        void OnCollisionEnter(Collision col)
+        {
+            // 충돌 됬을 때의 포인트(좌표)를 알려준다.
+            Debug.Log(col.contacts[0].point.ToString());
+            ExplosionWork(col.contacts[0].point);
+            Destroy(gameObject);
+        }
+
+        // Vector3에 충돌된 지점을 넣어준다.
+        void ExplosionWork(Vector3 ExplosionPoint)
+        {
+            // Physics.OverlapSphere() : 구 형태의 물리를 적용시킨다.
+            // 사용법 : Physics.OverlapSphere(시작점, 반지름, 적용 레이어);
+            HitColliders = Physics.OverlapSphere(ExplosionPoint, BlastRadius, ExplosionLayer);
+
+            // HitColliders 범위 안에 충돌되는 객체를 찾는다.
+            foreach (Collider Hitcol in HitColliders)
+            {
+                // 충돌된 gameObject의 이름을 출력한다.
+                //Debug.Log(Hitcol.gameObject.name);
+
+                // 충돌된 객체에 Rigidbody있다면
+                if (Hitcol.GetComponent<Rigidbody>() != null)
+                {
+                    //중력의 운동학적 기능
+                    Hitcol.GetComponent<Rigidbody>().isKinematic = false;
+                    
+                    
+                    // GetComponent<Rigidbody>().AddExplosionForce() : 폭발되는 힘을 정하는 기능
+                    // 사용법 : AddExplosionForce(폭발되는 힘, 시작점, 반지름, 증가하는 구 크기??,힘의 기능)
+                    Hitcol.GetComponent<Rigidbody>().AddExplosionForce(ExplosionPower, ExplosionPoint, BlastRadius,1,ForceMode.Impulse); 
+                }
+            }
+
+        }
+
+    }
+}
+
+ 
