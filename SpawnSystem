@@ -1,0 +1,44 @@
+// 사용 기술 : Vector3 SpawnPointChange = new Vector3() / Instantiate()
+
+using UnityEngine;
+using System.Collections;
+
+namespace Chapter1
+{
+    public class SpawnSystem : MonoBehaviour
+    {
+        public GameObject ObjectToSpawn;    //스폰될 객체
+        public int NumberOfEnemies; //스폰될 객체 수
+        private float SpawnRadius = 5;  //스폰되 장소의 범위
+        private Vector3 SpawnPosition; //스폰 위치
+        
+
+        void Start()
+        {
+            SpawnObject();
+        }
+
+       
+
+        void Update()
+        {
+
+        }
+
+        void SpawnObject()
+        {
+            for (int i = 0; i < NumberOfEnemies; i++)
+            {
+                SpawnPosition = transform.position + Random.insideUnitSphere * SpawnRadius;
+                // 스폰 지역 재확립
+                // Vector3 SpawnPointChange = new Vector3();
+                // Instantiate() : 객체 출력
+                // 사용법 : Instantiate(출력하고자 하는 객체, 위치, 회전) 
+                Instantiate(ObjectToSpawn, SpawnPosition, Quaternion.identity);
+
+            }
+
+        }
+    }
+}
+
