@@ -8,47 +8,82 @@ namespace Chapter1
     
     public class TriggersExample : MonoBehaviour
     {
-        // 같은 namespace끼리 Class 공유가 가능하다.
-        public WalkThroughWall WalkThroughWallScript;
+        private GameManager_EventMaster EventMasterScript;
 
         void Start()
         {
             SetObject();
         }
 
-
-
-        // 트리거로 들어왔을 때 (들어온 콜리더 객체)
         void OnTriggerEnter(Collider other)
         {
-            // WalkThroughWall의 메서드 public 으로 사용가능
-            WalkThroughWallScript.SetLayerToNotSolid();    
-            Debug.Log(other.name + "들어감");
-        }
-        // 트리거를 나갔을 때 (들어온 콜리더 객체)
-        void OnTriggerExit(Collider other)
-        {
-            WalkThroughWallScript.SetLayerToDefult();
-            Debug.Log(other.name + "나갔음");
-        }
-        // 트리거 안에 있을 때 (들어온 콜리더 객체)
-        void OnTriggerStay(Collider other)
-        {
-            Debug.Log(other.name + "안에 있는중");
+
+            EventMasterScript.CallMyGeneralEvent();
+            Destroy(gameObject);
         }
 
         void SetObject()
         {
-            if (GameObject.Find("Wall") != null)
-            {
-                // [ 동일 namespace 안에 Class끼리 기능 공유 ]
-                // 내용 : GameObject.Find("Wall").GetComponent<WalkThroughWall>();
-                // 해석 : Scene에 있는 Wall이라는 GameObject의 WalkThroughWall 기능을 가져와라
-                WalkThroughWallScript = GameObject.Find("Wall").GetComponent<WalkThroughWall>();
-            }
-
+            EventMasterScript = GameObject.Find("GameMenager").GetComponent<GameManager_EventMaster>();
         }
     }
+
+    //--------------------------------------------------------------------------------------------
+    /*
+       // 같은 namespace끼리 Class 공유가 가능하다.
+        public WalkThroughWall WalkThroughWallScript;
+
+       // GameManager_EventMaster를 불러올 그릇을 만든다.
+       private GameManager_EventMaster EventMasterScript;
+
+
+       void Start()
+       {
+           SetObject();
+       }
+
+
+
+       // 트리거로 들어왔을 때 (들어온 콜리더 객체)
+       void OnTriggerEnter(Collider other)
+       {
+           // WalkThroughWall의 메서드 public 으로 사용가능
+           // WalkThroughWallScript.SetLayerToNotSolid();    
+           Debug.Log(other.name + "들어감");
+
+           //그릇에 담긴 CallMyGeneralEvent()를 실행 시킨다.
+           EventMasterScript.CallMyGeneralEvent();
+       }
+       // 트리거를 나갔을 때 (들어온 콜리더 객체)
+       void OnTriggerExit(Collider other)
+       {
+           WalkThroughWallScript.SetLayerToDefult();
+           Debug.Log(other.name + "나갔음");
+       }
+       // 트리거 안에 있을 때 (들어온 콜리더 객체)
+       void OnTriggerStay(Collider other)
+       {
+           Debug.Log(other.name + "안에 있는중");
+       }
+
+       void SetObject()
+       {
+           if (GameObject.Find("Wall") != null)
+           {
+               // [ 동일 namespace 안에 Class끼리 기능 공유 ]
+               // 내용 : GameObject.Find("Wall").GetComponent<WalkThroughWall>();
+               // 해석 : Scene에 있는 Wall이라는 GameObject의 WalkThroughWall 기능을 가져와라
+               WalkThroughWallScript = GameObject.Find("Wall").GetComponent<WalkThroughWall>();
+           }
+
+           // EventMasterScript를 정의 한다.(그릇에 담는다.)
+           EventMasterScript = GameObject.Find("GameMenager").GetComponent<GameManager_EventMaster>();
+
+
+
+       }
+   }
+   */
 }
 
 
