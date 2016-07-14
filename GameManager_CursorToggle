@@ -1,0 +1,60 @@
+// 사용 기술 :Cursor.lockState = CursorLockMode.Locked/ 
+
+using UnityEngine;
+using System.Collections;
+
+namespace Chapter1
+{
+    public class GameManager_CursorToggle : MonoBehaviour
+    {
+        // 커서 잠금
+        private bool isCursorLocked;
+
+        void Start()
+        {
+            ToggleCursorState();
+        }
+
+       
+
+        void Update()
+        {
+            CheckInput();
+            CheckCursorLocked();
+
+        }
+        // 커서 전환 상태
+        void ToggleCursorState()
+        {
+            // 커서 잠금 온오프
+            isCursorLocked = !isCursorLocked;
+        }
+
+        void CheckInput()
+        {
+            //
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ToggleCursorState();
+            }
+        }
+
+        void CheckCursorLocked()
+        {
+            if(isCursorLocked)
+            {
+
+                // Cursor.lockState = CursorLockMode.Locked
+                // 마우스 커서 잠그기 
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+        }
+    }
+
+}
