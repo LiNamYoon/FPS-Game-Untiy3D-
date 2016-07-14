@@ -1,0 +1,62 @@
+// 사용 기술 : NavMeshAgent.SetDestination()
+using UnityEngine;
+using System.Collections;
+
+namespace chapter1
+{
+    public class ChaseSystem : MonoBehaviour
+    {
+        public LayerMask DetectionLayer;
+        private Transform MyTransform;
+        private NavMeshAgent MyNavMeshAgent;
+        private Collider[] HitColliders;
+        private float CheckRate;
+        private float NextCheck;
+        private float DetectionRadius = 1000;     //감지범위의 반지름
+
+
+
+        void Start()
+        {
+            SetObject();
+        }
+
+
+
+        void Update()
+        {
+            ChaseObjectCheck();
+        }
+
+        void SetObject()
+        {
+            MyTransform = transform;
+            MyNavMeshAgent = GetComponent<NavMeshAgent>();
+            CheckRate = Random.Range(0.8f, 1.2f);
+        }
+
+        void ChaseObjectCheck()
+        {
+            if(Time.time > NextCheck && MyNavMeshAgent.enabled == true)
+            {
+                NextCheck = Time.time + CheckRate;
+
+                // 구의 형태로 원하는 Layer 객체를 찾는다.
+                HitColliders = Physics.OverlapSphere(MyTransform.position, DetectionRadius, DetectionLayer);
+                //Debug.Log("목적지 찾음" );
+
+                if (HitColliders.Length > 0)
+                {
+                    // NavMeshAgent.SetDestination() : 네이게이션 기능을 이용해서 목적이로 지정한 곳 이동
+                    // 사용법 : NavMeshAgent.SetDestination(목적지 위치);
+                    MyNavMeshAgent.SetDestination(HitColliders[0].transform.position);
+                    //Debug.Log("목적지로 이동"+ HitColliders[0].transform.position.ToString());
+                    
+
+                }
+            } 
+        }
+    }
+}
+
+
