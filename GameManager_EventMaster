@@ -1,0 +1,27 @@
+// delegate void GeneralEvent()
+
+using UnityEngine;
+using System.Collections;
+
+namespace Chapter1
+{
+
+    public class GameManager_EventMaster : MonoBehaviour
+    {
+        // delegate 대리자 함수를 만들수 있는 기능
+        // 사용법 : delegate void 이름()
+        public delegate void GeneralEvent();
+        public event GeneralEvent MyGeneralEvent;
+
+
+
+        public void CallMyGeneralEvent()
+        {
+            if(MyGeneralEvent!=null)
+            {
+                MyGeneralEvent();
+            }
+        }
+    }
+
+}
