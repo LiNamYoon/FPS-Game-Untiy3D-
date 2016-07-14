@@ -1,4 +1,4 @@
-// 사용 기술 : Instantiate() /
+// 사용 기술 : Instantiate() / GetComponent<Rigidbody>().AddForce()
 
 using UnityEngine;
 using System.Collections;
@@ -10,6 +10,7 @@ namespace Chapter1
     {
         public GameObject MiniBox;
         private Transform MyTransform;
+        public float ThrowPower;
 
 
         void Start()
@@ -34,6 +35,10 @@ namespace Chapter1
             // Instantiate() : 인스턴스화 한다라는 뜻으로 원하는 객체를 복제해서 클론을 생성한다.
             // 사용법 : Instantiate(생성하고자 하는 객체, 생성위치(좌표), 생성위치(각도);
             GameObject go = (GameObject)Instantiate(MiniBox, MyTransform.TransformPoint(0, 0, 0.5f), MyTransform.rotation);
+
+            // GetComponent<Rigidbody>().AddForce() : Rigidbody기능 중에서 AddForce로 원하는 힘을 주는 기능
+            // 사용법 : GetComponent<Rigidbody>().AddForce(힘의 방향(힘), ForceMode. 힘의 기능)
+            go.GetComponent<Rigidbody>().AddForce(MyTransform.forward * ThrowPower, ForceMode.Impulse);
             Destroy(go, 3f);
         }
     }
