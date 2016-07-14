@@ -51,7 +51,7 @@ namespace chapter1
                     // 사용법 : NavMeshAgent.SetDestination(목적지 위치);
                     MyNavMeshAgent.SetDestination(HitColliders[0].transform.position);
                     //Debug.Log("목적지로 이동"+ HitColliders[0].transform.position.ToString());
-                    
+                    //
 
                 }
             } 
