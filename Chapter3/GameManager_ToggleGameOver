@@ -1,0 +1,36 @@
+using UnityEngine;
+using System.Collections;
+
+namespace S3
+{
+    public class GameManager_ToggleGameOver : MonoBehaviour
+    {
+
+        private GameManager_Master GameManagerMaster;
+        public GameObject GameOverImage;
+
+        void OnEnable()
+        {
+            SetRSetReferences();
+            GameManagerMaster.GameOverEvent += ToggleGameOver;
+        }
+        void OnDisable()
+        {
+            GameManagerMaster.GameOverEvent -= ToggleGameOver;
+        }
+
+        void SetRSetReferences()
+        {
+            GameManagerMaster = GetComponent<GameManager_Master>();
+        }
+        void ToggleGameOver()
+        {
+            if(GameOverImage != null)
+            {
+                GameOverImage.SetActive(true);
+            }
+        }
+
+    }
+}
+
