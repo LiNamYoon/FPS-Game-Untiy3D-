@@ -1,0 +1,62 @@
+// 사용 기술 : Cursor.lockState = CursorLockMode / Cursor.visible
+
+using UnityEngine;
+using System.Collections;
+
+namespace S3
+{
+    public class GameManager_ToggleCursor : MonoBehaviour
+    {
+
+        private GameManager_Master GameManagerMaster;
+        private bool IsCursorLocked = true;
+
+
+
+        void OnEnable()
+        {
+            SetReferences();
+            GameManagerMaster.MenuToggleEvent += ToggleCursorState;
+            GameManagerMaster.InventoryEvent += ToggleCursorState;
+            //Debug.Log("활성화");
+        }
+        void OnDisable()
+        {
+            GameManagerMaster.MenuToggleEvent -= ToggleCursorState;
+            GameManagerMaster.InventoryEvent -= ToggleCursorState;
+            //Debug.Log("비활성화");
+        }
+        void SetReferences()
+        {
+            GameManagerMaster = GetComponent<GameManager_Master>();
+        }
+        void Update()
+        {
+            CheckCursorLock();
+        }
+
+        void ToggleCursorState()
+        {
+            IsCursorLocked = !IsCursorLocked;
+            //Debug.Log("마우스 온오프 체인지");
+        }
+        
+        void CheckCursorLock()
+        {
+            if(IsCursorLocked)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                //Debug.Log("마우스 꺼짐");
+
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                //Debug.Log("마우스 켜짐");
+            }
+        }
+    }
+
+}
