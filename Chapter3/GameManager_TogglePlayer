@@ -1,0 +1,38 @@
+// 사용 기술 : using UnityStandardAssets.Characters.FirstPerson; 
+
+using UnityEngine;
+using System.Collections;
+using UnityStandardAssets.Characters.FirstPerson;   //유니티 내부의 에셋을 수정하여 사용할 때
+
+namespace S3
+{
+    public class GameManager_TogglePlayer : MonoBehaviour
+    {
+        public FirstPersonController PlayerController; 
+        private GameManager_Master GameManagerMaster;
+
+        void OnEnable()
+        {
+            SetReferences();
+            GameManagerMaster.MenuToggleEvent += TogglePlayerController;
+            GameManagerMaster.InventoryEvent -= TogglePlayerController;
+        }
+        void OnDisable()
+        {
+            GameManagerMaster.MenuToggleEvent -= TogglePlayerController;
+            GameManagerMaster.InventoryEvent += TogglePlayerController;
+        }
+        void SetReferences()
+        {
+            GameManagerMaster = GetComponent<GameManager_Master>();
+        }
+        void TogglePlayerController()
+        {
+            if(PlayerController != null)
+            {
+                PlayerController.enabled = !PlayerController.enabled;
+            }
+        }
+    }
+
+}
