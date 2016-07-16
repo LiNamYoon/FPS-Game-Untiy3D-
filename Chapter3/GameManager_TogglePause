@@ -1,0 +1,57 @@
+// 사용 기술 : Time.timeScale
+
+using UnityEngine;
+using System.Collections;
+
+namespace S3
+{
+    public class GameManager_TogglePause : MonoBehaviour
+    {
+
+        private GameManager_Master GameManagerMaster;
+        public bool IsPause;
+
+
+        void Start()
+        {
+
+        }
+        void Update()
+        {
+
+        }
+
+        void OnEnable()
+        {
+            SetReferences();
+            GameManagerMaster.MenuToggleEvent += TogglePause;
+            GameManagerMaster.InventoryEvent += TogglePause;
+        }
+        void OnDisable()
+        {
+            GameManagerMaster.MenuToggleEvent -= TogglePause;
+            GameManagerMaster.InventoryEvent -= TogglePause;
+        }
+        void SetReferences()
+        {
+            GameManagerMaster = GetComponent<GameManager_Master>();
+        }
+        void TogglePause()
+        {
+            if (IsPause)
+            {
+                // Time.timeScale : 시간이 흘러가는 속도를 지정할 수 있다.
+                // 사용법 : Time.timeScale = 원하는 속도
+                // 참조 : 원하는 속도의 기준 (1= 일반 속도 / 0.5 = 일반 속도의 절반 / 0 = 시간 멈춤(모든 움직임 정지))
+                Time.timeScale = 1;
+                IsPause = false;
+            }
+            else
+            {
+                Time.timeScale = 0;
+                IsPause = true;
+            }
+        }
+    }
+
+}
