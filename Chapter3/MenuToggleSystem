@@ -1,0 +1,59 @@
+// 사용 기술 : Menu.activeSelf /
+
+using UnityEngine;
+using System.Collections;
+
+namespace S3
+{
+    public class MenuToggleSystem : MonoBehaviour
+    {
+        private GameManager_Master GameManagerMaster;
+        public GameObject Menu;
+
+
+        void Start()
+        {
+            ToggleMenu();
+        }
+        void Update()
+        {
+            CheckForMenuRequest();
+        }
+
+        void OnEnable()
+        {
+            SetReferences();
+            GameManagerMaster.GameOverEvent += ToggleMenu;
+        }   
+        void OnDisable()
+        {
+            GameManagerMaster.GameOverEvent -= ToggleMenu;
+        }
+        void SetReferences()
+        {
+            GameManagerMaster = GetComponent<GameManager_Master>();
+        }
+        void CheckForMenuRequest()
+        {
+            // ESC 누르면 ToggleMenu 
+            if (Input.GetKeyDown(KeyCode.Escape) && !GameManagerMaster.IsGameOverSwitch && !GameManagerMaster.IsInventorySwitch)
+            {
+                ToggleMenu();
+            }
+        }
+        void ToggleMenu()
+        {
+            if(Menu != null)
+            {
+                //Menu.SetActive(!Menu.activeSelf) : Menu.SetActive(true/fales를 정할때 activeSelf으로 현재 true/fales를 알 수 있다.)
+                Menu.SetActive(!Menu.activeSelf);
+                GameManagerMaster.IsMenuSwitch = !GameManagerMaster.IsMenuSwitch;
+                GameManagerMaster.CallEventMenuTggle();
+            }
+            else
+            {
+                Debug.LogWarning("메뉴UI가 스크립트랑 연동이 안됬습니다.");
+            }
+        }
+    }
+}
