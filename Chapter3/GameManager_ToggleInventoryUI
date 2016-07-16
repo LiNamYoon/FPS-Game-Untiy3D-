@@ -1,0 +1,70 @@
+// 사용 기술 : [Tooltip("")]
+
+using UnityEngine;
+using System.Collections;
+
+namespace S3
+{
+    public class GameManager_ToggleInventoryUI : MonoBehaviour
+    {
+        // 아래의 public된 메서드를 유니티 상에서 마우스 오버시켰을 때 설명이 나오는 기능
+        [Tooltip("fffff")]
+        public bool HasInventory;
+        public GameObject InventoryUI;
+        public string ToggleInventoryButton;
+        private GameManager_Master GameManagerMaster;
+
+        void Start()
+        {
+            SetReferences();
+        }
+
+        
+
+        void Update()
+        {
+            CheckForInventoryUIToggleRequest();
+        }
+        void OnEnable()
+        {
+            SetReferences();
+        }
+        void OnDisable()
+        {
+
+        }
+        void SetReferences()
+        {
+            
+            GameManagerMaster = GetComponent<GameManager_Master>();
+            
+
+            
+            if (ToggleInventoryButton == "")
+            {
+                
+                this.enabled = false;
+            }
+        }
+        void CheckForInventoryUIToggleRequest()
+        {
+            if(Input.GetButtonUp(ToggleInventoryButton) && !GameManagerMaster.IsMenuSwitch && !GameManagerMaster.IsGameOverSwitch && HasInventory)
+            {
+                ToggleInventoryUI();
+                
+            }
+        }
+        void ToggleInventoryUI()
+        {
+            if(InventoryUI != null)
+            {
+                InventoryUI.SetActive(!InventoryUI.activeSelf);
+                GameManagerMaster.IsInventorySwitch = !GameManagerMaster.IsInventorySwitch;
+                GameManagerMaster.CallEventInventory();
+
+                
+            }
+        }
+    }
+
+}
