@@ -1,0 +1,33 @@
+using UnityEngine;
+using System.Collections;
+
+
+namespace S3
+{
+    public class GameManager_RestartLevel : MonoBehaviour
+    {
+        private GameManager_Master GameManagerMaster;
+
+        void OnEnable()
+        {
+            SetReferences();
+            GameManagerMaster.ReSetLevelEvent += ToggleRestartLevel;
+        }
+
+        void OnDisable()
+        {
+            GameManagerMaster.ReSetLevelEvent -= ToggleRestartLevel;
+        }
+
+        void SetReferences()
+        {
+            GameManagerMaster = GetComponent<GameManager_Master>();
+        }
+
+        void ToggleRestartLevel()
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
+    }
+
+}
