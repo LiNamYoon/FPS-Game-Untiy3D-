@@ -1,0 +1,34 @@
+using UnityEngine;
+using System.Collections;
+
+namespace S3
+{
+
+    public class GameManager_ToggleMainMenu : MonoBehaviour
+    {
+
+        private GameManager_Master GameManagerMaster;
+
+        void OnEnable()
+        {
+            SetReferences();
+            GameManagerMaster.GoToMenuSceneEvent += ToggleMainMenuScene;
+        }
+
+        void OnDisable()
+        {
+            GameManagerMaster.GoToMenuSceneEvent -= ToggleMainMenuScene;
+        }
+
+        void SetReferences()
+        {
+            GameManagerMaster = GetComponent<GameManager_Master>();
+        }
+
+        void ToggleMainMenuScene()
+        {
+            Application.LoadLevel(0);
+        }
+    }
+
+}
