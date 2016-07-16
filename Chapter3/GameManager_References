@@ -1,0 +1,38 @@
+// 사용 기술 : GameObject.FindGameObjectWithTag()
+
+using UnityEngine;
+using System.Collections;
+
+namespace S3
+{
+    public class GameManager_References : MonoBehaviour
+    {
+        public string PlayerTag;
+        public static string _PlayerTag;
+
+        public string EnemyTag;
+        public static string _EnemyTag;
+
+        public static GameObject _Player;
+
+
+        void OnEnable()
+        {
+            if (PlayerTag == "")
+            {
+                
+            }
+            if (EnemyTag == "")
+            {
+
+            }
+            _PlayerTag = PlayerTag;
+            _EnemyTag = EnemyTag;
+
+            _Player = GameObject.FindGameObjectWithTag(_PlayerTag);
+            
+        }
+    }
+}
+
+
