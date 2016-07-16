@@ -1,0 +1,61 @@
+// 사용 기술 : delegate / event /
+
+using UnityEngine;
+using System.Collections;
+
+namespace S3
+{
+    public class GameManager_Master : MonoBehaviour
+    {
+        public delegate void GameEventManager();
+        public event GameEventManager MenuToggleEvent;
+        public event GameEventManager InventoryEvent;
+        public event GameEventManager ReSetLevelEvent;
+        public event GameEventManager GoToMenuSceneEvent;
+        public event GameEventManager GameOverEvent;
+
+        public bool IsInventorySwitch;
+        public bool IsMenuSwitch;
+        public bool IsGameOverSwitch;
+
+        public void CallEventMenuTggle()
+        {
+            if(MenuToggleEvent != null)
+            {
+                MenuToggleEvent();
+            }
+        }
+        public void CallEventInventory()
+        {
+            if (InventoryEvent != null)
+            {
+                InventoryEvent();
+            }
+        }
+        public void CallEventReSetLevel()
+        {
+            if (ReSetLevelEvent != null)
+            {
+                ReSetLevelEvent();
+            }
+        }
+        public void CallEventGoToMenuScene()
+        {
+            if (GoToMenuSceneEvent != null)
+            {
+                GoToMenuSceneEvent();
+            }
+        }
+        public void CallEventGameOver()
+        {
+            if (GameOverEvent != null)
+            {
+                GameOverEvent();
+            }
+        }
+
+
+
+    }
+
+}
