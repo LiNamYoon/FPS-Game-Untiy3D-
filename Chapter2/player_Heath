@@ -1,0 +1,90 @@
+using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+
+
+namespace S3
+{
+	public class player_Heath : MonoBehaviour 
+	{
+        private GameManager_Master GameManagerMaster;
+        private Player_Master PlayerMaster;
+        public int PlayerHeath;
+        public Text PlayerHeathText;
+
+
+		
+		void OnEnable()
+		{
+            SetReference();
+            SetUI();
+            PlayerMaster.EventPlayerHealthDeduction += DeductHealth;
+            PlayerMaster.EventPlayerHealthDeduction -= IncreaseHealth;
+        }
+
+		void OnDisable()
+		{
+            PlayerMaster.EventPlayerHealthDeduction -= DeductHealth;
+            PlayerMaster.EventPlayerHealthDeduction += IncreaseHealth;
+        }
+	
+
+		void Start ()
+		{
+            // 코루틴 시작
+            //StartCoroutine(TestHealthDeduction());
+		}
+		
+		void SetReference()
+		{
+            GameManagerMaster = GameObject.Find("GameManager").GetComponent<GameManager_Master>();
+            PlayerMaster = GetComponent<Player_Master>();
+        }
+
+        //코루틴 내용
+        IEnumerator TestHealthDeduction()
+        {
+            yield return new WaitForSeconds(2);
+            //DeductHealth(100);
+            PlayerMaster.CallEventPlayerHealthDeduction(50);
+        }
+
+        // 소모 체력
+        void DeductHealth(int HealthChange)
+        {
+            PlayerHeath -= HealthChange;
+
+            if(PlayerHeath <= 0)
+            {
+                PlayerHeath = 0;
+                GameManagerMaster.CallEventGameOver();
+            }
+            SetUI();
+
+        }
+
+        // 증가 체력
+        void IncreaseHealth(int HealthChange)
+        {
+            PlayerHeath += HealthChange;
+
+            if (PlayerHeath > 100)
+            {
+                PlayerHeath = 100;
+                
+            }
+            SetUI();
+        }
+        
+        void SetUI()
+        {
+            if(PlayerHeathText != null)
+            {
+                PlayerHeathText.text = PlayerHeath.ToString();
+            }
+        }
+
+    }
+
+
+}
