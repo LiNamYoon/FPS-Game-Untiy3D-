@@ -1,0 +1,129 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+
+
+namespace S3
+{
+	public class Player_Inventory : MonoBehaviour 
+	{
+        public Transform InventoryPlayerParent;
+        public Transform InventorUIParent;
+        public GameObject UIButton;
+
+        private Player_Master PlayerMaster;
+        private GameManager_ToggleInventoryUI InventoryUIScript;
+        private float TimeToPlaceInHands = 0.1f;
+        private Transform CurrentlyHeldItem;
+        private int Counter;
+        private string ButtonText;
+        private List<Transform> ListInventory = new List<Transform>();
+
+
+
+		void OnEnable()
+		{
+            SetReference();
+            UpdateInventoryListAndUI();
+            CheckIfHandsEmpty();
+
+            PlayerMaster.EventInventoryChanged += UpdateInventoryListAndUI;
+            PlayerMaster.EventInventoryChanged += CheckIfHandsEmpty;
+            PlayerMaster.EventHandsEmpty += ClearHands;
+        }
+
+		void OnDisable()
+		{
+            PlayerMaster.EventInventoryChanged -= UpdateInventoryListAndUI;
+            PlayerMaster.EventInventoryChanged -= CheckIfHandsEmpty;
+            PlayerMaster.EventHandsEmpty -= ClearHands;
+        }
+	
+
+		void SetReference()
+		{
+            InventoryUIScript = GameObject.Find("GameManager").GetComponent<GameManager_ToggleInventoryUI>();
+            PlayerMaster = GetComponent<Player_Master>();
+
+		}
+
+        void UpdateInventoryListAndUI()
+        {
+            Counter = 0;
+            ListInventory.Clear();
+            ListInventory.TrimExcess();
+
+            ClearInventoryUI();
+
+            foreach (Transform Child in InventorUIParent)
+            {
+                if (Child.CompareTag("Item"))
+                {
+                    ListInventory.Add(Child);
+                    GameObject go = Instantiate(UIButton) as GameObject;
+                    ButtonText = Child.name;
+                    go.GetComponent<Text>().text = ButtonText;
+                    int index = Counter;
+                    go.GetComponent<Button>().onClick.AddListener(delegate { ActivateInventoryItme(index); });
+                    go.GetComponent<Button>().onClick.AddListener(InventoryUIScript.ToggleInventoryUI);
+                    go.transform.SetParent(InventorUIParent,false);
+                }
+            }
+        }
+
+        void CheckIfHandsEmpty()
+        {
+            if(CurrentlyHeldItem == null && ListInventory.Count > 0)
+            {
+                StartCoroutine(PlaceItemInHands(ListInventory[ListInventory.Count-1]));
+            }
+
+        }
+
+        void ClearHands()
+        {
+            CurrentlyHeldItem = null;
+        }
+
+        void ClearInventoryUI()
+        {
+            foreach(Transform Child in InventorUIParent)
+            {
+                Destroy(Child.gameObject);
+            }
+        }
+
+        public void ActivateInventoryItme(int InventoryIndex)
+        {
+            DeactivateAllInventoryItems();
+            StartCoroutine(PlaceItemInHands(ListInventory[InventoryIndex]));
+        }
+
+        void DeactivateAllInventoryItems()
+        {
+            foreach(Transform Child in InventoryPlayerParent)
+            {
+                if(Child.CompareTag("Item"))
+                {
+                    Child.gameObject.SetActive(false);
+
+                }
+            }
+        }
+
+        IEnumerator PlaceItemInHands(Transform ItemTransform)
+        {
+            yield return new WaitForSeconds(TimeToPlaceInHands);
+            CurrentlyHeldItem = ItemTransform;
+            CurrentlyHeldItem.gameObject.SetActive(true);
+
+        }
+
+	}
+
+}
+
+
+
+
