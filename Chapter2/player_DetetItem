@@ -1,0 +1,73 @@
+using UnityEngine;
+using System.Collections;
+
+namespace S3
+{
+	public class player_DetetItem : MonoBehaviour 
+	{
+        public LayerMask LayerToDetect;
+
+        public Transform rayTreansformPivot;
+
+        public string ButtonPickup;
+
+        private Transform ItemAvaillableforPickup;
+        private RaycastHit Hit;
+        private float DetectRange = 3;
+        private float DetectRadius = 1f;
+        private bool ItemInRange;
+
+        private float LabelWidth = 200;
+        private float LabelHeught = 50;
+
+        void Update()
+        {
+            CastRayForDetectingItems();
+            CheckForItemPickUp();
+
+        }
+
+        void SetReference()
+        {
+
+        }
+
+
+
+        // 범위 안에 아이템이 존재하는지 확인
+        void CastRayForDetectingItems()
+        {
+            if (Physics.SphereCast(rayTreansformPivot.position, DetectRadius, rayTreansformPivot.forward, out Hit, DetectRange, LayerToDetect))
+            {
+                ItemAvaillableforPickup = Hit.transform;
+                ItemInRange = true;
+
+            }
+            else
+            {
+                ItemInRange = false;
+            }
+        }
+
+
+        void CheckForItemPickUp()
+        {
+            // 만약(픽업 버튼을 눌렀다 && 시간이 0보다 크다 && 범위 안에 아이템이 있다. && 플레이어 태그가 아니다.
+            if (Input.GetButtonDown(ButtonPickup) && Time.timeScale > 0 && ItemInRange && ItemAvaillableforPickup.root.tag != GameManager_References._PlayerTag)
+            {
+                Debug.Log("아이템 줍줍");
+            }
+        }
+
+        void OnGUI()
+        {
+            if (ItemInRange && ItemAvaillableforPickup != null)
+            {
+
+                GUI.Label(new Rect(Screen.width / 2 - LabelWidth / 2, Screen.height / 2 - LabelHeught / 2, LabelWidth, LabelHeught), ItemAvaillableforPickup.name);
+            }
+        }
+    }
+
+}
+
