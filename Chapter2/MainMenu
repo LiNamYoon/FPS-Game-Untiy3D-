@@ -1,0 +1,25 @@
+// 사용 기술 : Application.LoadLevel(1)/   Application.Quit()
+
+using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
+
+namespace S3
+{
+    public class MainMenu : MonoBehaviour
+    {
+
+        public void PlayButton()
+        {
+            SceneManager.LoadScene(1);
+            //Application.LoadLevel(1);
+        }
+        public void ExitButton()
+        {
+            Application.Quit();
+        }
+
+
+    }
+
+}
