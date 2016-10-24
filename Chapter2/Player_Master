@@ -1,0 +1,95 @@
+using UnityEngine;
+using System.Collections;
+
+namespace S3
+{
+	public class Player_Master : MonoBehaviour 
+	{
+        public delegate void GeneralEventHandler();
+        public event GeneralEventHandler EventInventoryChanged;
+        public event GeneralEventHandler EventHandsEmpty;
+        public event GeneralEventHandler EventAmmoChanged;
+
+        public delegate void AmmoPickUpEventHandler(string AmmoName, int Quantity);
+        public event AmmoPickUpEventHandler EventPickUpAmmo;
+
+
+        public delegate void PlayerHealthEventHandler(int HealthChange);
+        public event PlayerHealthEventHandler EventPlayerHealthDeduction;
+        public event PlayerHealthEventHandler EventPlayerHealthIncrease;
+
+        public void CallEventInventoryChanged()
+        {
+            if(EventInventoryChanged != null)
+            {
+                EventInventoryChanged();
+            }
+        }
+
+        public void CallEventHandsEmpty()
+        {
+            if (EventHandsEmpty != null)
+            {
+                EventHandsEmpty();
+            }
+        }
+
+        public void CallEventAmmoChanged()
+        {
+            if (EventAmmoChanged != null)
+            {
+                EventAmmoChanged();
+            }
+        }
+
+        public void CallEventPickUpAmmo(string AmmoName, int Quantity)
+        {
+            if (EventPickUpAmmo != null)
+            {
+                EventPickUpAmmo(AmmoName, Quantity);
+            }
+        }
+
+        public void CallEventPlayerHealthDeduction(int Dmg)
+        {
+            if (EventPlayerHealthDeduction != null)
+            {
+                EventPlayerHealthDeduction(Dmg);
+            }
+        }
+
+        public void CallEventPlayerHealthIncrease(int Increase)
+        {
+            if (EventPlayerHealthIncrease != null)
+            {
+                EventPlayerHealthIncrease(Increase);
+            }
+        }
+        void OnEnable()
+		{
+		
+		}
+
+		void OnDisable()
+		{
+		
+		}
+	
+
+		void Start ()
+		{
+	
+		}
+		
+		void Update () 
+		{
+	
+		}
+
+		void SetReference()
+		{
+		
+		}
+	}
+
+}
